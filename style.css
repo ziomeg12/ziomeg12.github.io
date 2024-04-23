@@ -6,7 +6,7 @@
   }
   body {
     width: 100%;
-    overflow-x: hidden;
+    overflow: auto;
 }
 
 
@@ -65,7 +65,7 @@ nav {
 .main_section {
   display: flex;
   height: 100vh;
-  background-image: url("food_roasted_chicken_slg_120215.jpg");
+  background-image: url("chicken_image.jpg");
   background-repeat: no-repeat;
   background-color: #111111;
 }
