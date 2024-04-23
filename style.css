@@ -205,6 +205,9 @@ footer {
 #logo_img {
   width: 500px;
 }
+a {
+    text-decoration: none;
+}
 @media(max-width: 1500px) {
   #about_us_text {
     font-size: 15px;
