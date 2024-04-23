@@ -39,7 +39,6 @@ nav {
   padding: 10px;
   border-radius: 50px;
   font-family:'Courier New', Courier, monospace;
-  text-decoration: none;
 }
 
 #title-div {
@@ -63,7 +62,7 @@ nav {
   font-size: 20px;
 }
 .main_section {
-
+  width: 100%;
   height: 100vh;
   background-image: url("food_roasted_chicken_slg_120215.jpg");
   background-repeat: no-repeat;
@@ -206,9 +205,6 @@ footer {
 #logo_img {
   width: 500px;
 }
-a {
-  text-decoration: none;
-}
 @media(max-width: 1500px) {
   #about_us_text {
     font-size: 15px;
@@ -227,8 +223,5 @@ a {
   }
   #logo_img {
     width: 200px;
-  }
-  h1 {
-    font-size: 20px;
   }
 }
