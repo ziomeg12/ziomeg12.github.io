@@ -1,0 +1,44 @@
+h2 {
+    color :black;
+    font-size: 30px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background-color: lightcyan;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+#container {
+    display: none;
+    gap: 1rem;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+input {
+    padding: 1rem;
+    font-size: 16px;
+    text-align: center;
+}
+
+#check {
+    margin-top: 1rem;
+    padding:1rem;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    background-color: dodgerblue;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#score {
+    font-size: 24px;
+}
