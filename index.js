@@ -1,8 +1,39 @@
 
 const keys_and_answers = [
     ["ser (yo)", "fui"],
-    ["asdf", "ghjk"],
-    ["qwer", "tyui"],
+    ["hablar (yo)", "hable"],
+    ["ver (el)", "vio"],
+    ["escribir (nos)", "escribimos"],
+    ["poder (vos)", "pudisteis"],
+    ["morir (el)", "murio"],
+    ["pedir (el)", "pidio"],
+    ["tener (vos)", "tuvisteis"],
+    ["saber (tu)", "supiste"],
+    ["decir (ellas)", "dijeron"],
+    ["bailar (uds)", "bailaron"],
+    ["leer (el)", "leyo"],
+    ["comer (vos)", "comisteis"],
+    ["hacer (el)", "hizo"],
+    ["saltar (vos)", "saltasteis"],
+    ["poner (tu)", "pusiste"],
+    ["traer (ella)", "trajo"],
+    ["vivir (nos)", "vivimos"],
+    ["tocar (yo)", "toque"],
+    ["caer (ud)", "cayo"],
+    ["correr (vos)", "corristeis"],
+    ["ir (yo)", "fui"],
+    ["salir (yo)", "sali"],
+    ["marchar (nos)", "marchamos"],
+    ["volver (tu)", "volviste"],
+    ["esperar (vos)", "esperasteis"],
+    ["construir (ellos)", "construyeron"],
+    ["escuchar (vos)", "escuchasteis"],
+    ["beber (yo)", "bebi"],
+    ["creer (el)", "creyo"],
+    ["apagar (ella)", "apago"],
+    ["nadar (vos)", "nadasteis"],
+    ["abrir (yo)", "abri"],
+    ["poder (tu)", "pudiste"],
 ]
 
 const word_display = document.getElementById("word-display");
@@ -33,16 +64,32 @@ generate_word();
 
 function check() {
     player_input = input.value;
+    player_input = player_input.toLowerCase();
+    player_input = player_input.replace("é","e")
+    player_input = player_input.replace("è","e")
+    player_input = player_input.replace("á","a")
+    player_input = player_input.replace("à","a")
+    player_input = player_input.replace("ì","i")
+    player_input = player_input.replace("í","i")
+    player_input = player_input.replace("ó","o")
+    player_input = player_input.replace("ò","o")
+    player_input = player_input.replace("ù","u")
+    player_input = player_input.replace("ú","u")
+    player_input = player_input.replace("ñ","n")
     if(player_input == answer) {
         score += 1;
         console.log(score)
         document.getElementById("score").innerHTML = `Wynik: ${score}`
         nextIndex = myIndex;
         message.textContent = "Poprawna odpowiedź";
+        message.style.display = "block";
         generate_word();
-        
     }
-
+    else {
+        message.style.display = "block";
+        message.textContent = "Niepoprawna odpowiedź";
+    }
+    input.value = ""
 }
 
 function start() {
@@ -50,4 +97,13 @@ function start() {
     container.style.flexDirection = "column";
     container.style.alignItems = "center";
     start_button.style.display = "none";
+}
+
+function skip(){
+    score -=1;
+    document.getElementById("score").innerHTML = `Wynik: ${score}`
+    message.style.display = "block";
+    message.textContent = "Pominięto pytanie";
+    nextIndex = myIndex;
+    generate_word()
 }
