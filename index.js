@@ -1,15 +1,15 @@
 
-
 const keys_and_answers = [
     ["ser (yo)", "fui"],
     ["asdf", "ghjk"],
-    ["qwer", "tyui"]
+    ["qwer", "tyui"],
 ]
 
 const word_display = document.getElementById("word-display");
 const input = document.getElementById("player-input");
 const container = document.getElementById("container");
 const start_button = document.getElementById("start");
+const message = document.getElementById("message");
 let word = "";
 let answer = "";
 let player_input = "";
@@ -38,7 +38,9 @@ function check() {
         console.log(score)
         document.getElementById("score").innerHTML = `Wynik: ${score}`
         nextIndex = myIndex;
+        message.textContent = "Poprawna odpowiedź";
         generate_word();
+        
     }
 
 }
