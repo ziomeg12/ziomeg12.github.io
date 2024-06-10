@@ -1,4 +1,3 @@
-
 const keys_and_answers = [
     ["ser (yo)", "fui"],
     ["hablar (yo)", "hable"],
@@ -36,6 +35,8 @@ const keys_and_answers = [
     ["poder (tu)", "pudiste"],
 ]
 
+let used_index = [];
+
 const word_display = document.getElementById("word-display");
 const input = document.getElementById("player-input");
 const container = document.getElementById("container");
@@ -50,10 +51,18 @@ let score = 0;
 
 function generate_word() {
     myIndex = Math.floor(Math.random() * (keys_and_answers.length)); 
-    while(myIndex == nextIndex) {
-        console.log("gf")
+
+    while(used_index.includes(myIndex) && used_index.length < keys_and_answers.length) {
         myIndex = Math.floor(Math.random() * (keys_and_answers.length));
     }
+
+    if(used_index.length > keys_and_answers.length) {
+        used_index = []
+    }
+
+    used_index[used_index.length] = myIndex;
+    console.log(used_index)
+
     word = keys_and_answers[myIndex][0];
     answer = keys_and_answers[myIndex][1];
     word_display.textContent = word;
@@ -83,11 +92,14 @@ function check() {
         nextIndex = myIndex;
         message.textContent = "Poprawna odpowiedź";
         message.style.display = "block";
+        message.style.backgroundColor = "springgreen";
+
         generate_word();
     }
     else {
         message.style.display = "block";
         message.textContent = "Niepoprawna odpowiedź";
+        message.style.backgroundColor = "red";
     }
     input.value = ""
 }
@@ -105,5 +117,6 @@ function skip(){
     message.style.display = "block";
     message.textContent = "Pominięto pytanie";
     nextIndex = myIndex;
+    message.style.backgroundColor = "yellow";
     generate_word()
 }
