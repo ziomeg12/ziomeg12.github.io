@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" >
+</head>
+<body>
+    <div class="screen">
+        <h1 id="score">Length: 5</h1>
+        <div class="main-square">
+            <div id="main-square"></div>
+        </div>
+    </div>
+    <script>
+        
+        let width = 50;
+        let gameWidth = 800
+        let direction = "right";
+        let delay = 200;
+        let speed = 1;
+        let apples = 0;
+        let squareDirections = []
+        let length = 0;
+        
+        const game = document.getElementById('main-square');
+                game.style.width = `${gameWidth}px`
+        game.style.height = `${gameWidth}px`
+
+        function createSquare () {
+            game.innerHTML += `<div class='snake-square' id='snake-${length}'></div>`;
+            squareDirections[length] = "right"
+            let currentSquare = document.getElementById(`snake-${length}`)
+            currentSquare.style.width = `${width}px`
+            currentSquare.style.height = `${width}px`
+            if(length == 0) {
+                currentSquare.style.backgroundColor ="yellow"
+            }
+
+            currentSquare.style.top = "400px"
+            currentSquare.style.left = `calc(400px - ${length}px*${width})`
+        }
+
+        function newCreateSquare() {
+            
+            game.innerHTML += `<div class='snake-square' id='snake-${length}'></div>`;
+            let newSquare = document.getElementById(`snake-${length}`)
+            let oldSquare = document.getElementById(`snake-${length - 1}`)
+            
+            squareDirections[length] = squareDirections[length - 1];
+            newSquare.style.width = `${width}px`
+            newSquare.style.height = `${width}px`
+
+            let squareTop = document.getElementById(`snake-${length - 1}`).style.top.replace(/[^0-9]/g, '');
+            let squareLeft = document.getElementById(`snake-${length - 1}`).style.left.replace(/[^0-9]/g, '');
+            squareTop = Number(squareTop)
+            squareLeft = Number(squareLeft)
+
+            if(squareDirections[length - 1] == "down") {
+                  newSquare.style.top = `${squareTop - width}px`
+                  newSquare.style.left = `${squareLeft}px`
+            }
+            else if(squareDirections[length - 1] == "up") {
+                  newSquare.style.top = `${squareTop + width}px`
+                  newSquare.style.left = `${squareLeft}px`
+            }
+            else if(squareDirections[length - 1] == "right") {
+                  newSquare.style.top = `${squareTop}px`
+                  newSquare.style.left = `${squareLeft - width}px`
+            }
+            else if(squareDirections[length - 1] == "left") {
+                  newSquare.style.top = `${squareTop}px`
+                  newSquare.style.left = `${squareLeft + width}px`
+            }
+            length++;
+            document.getElementById(`score`).textContent = `Length: ${length}`
+        }
+
+        function createApple() {
+            let top = Math.floor(Math.random() * (800 - width))
+            let left = Math.floor(Math.random() * (800 - width))
+            let collision = false;
+
+            for(let i = 0; i < length; i++) {
+                let greensquare = document.getElementById(`snake-${i}`);
+                let gsTop = greensquare.style.top.replace(/[^0-9-]/g, '')
+                let gsLeft = greensquare.style.left.replace(/[^0-9-]/g, '')
+                gsTop = Number(gsTop)
+                gsLeft = Number(gsLeft)
+                if(top + width > gsTop && top < gsTop + width && left + width > gsLeft && left < gsLeft + width)  {
+                    i = 999;
+                    collision = true;
+                    createApple()
+                }     
+                }
+                if(collision == false) {
+                    game.innerHTML += `<div class='apple' id='apple-${apples}'><div/>`
+                    let apple = document.getElementById(`apple-${apples}`);
+                    apple.style.width = `${width}px`
+                    apple.style.height = `${width}px`
+                    apple.style.backgroundColor = 'red'
+                    apple.style.top = `${top}px`;
+                    apple.style.left = `${left}px`;
+                }
+                               
+
+            
+        }
+
+        for(;length < 5 ; length++) {
+            createSquare()
+            
+        }
+        createApple()
+
+        document.addEventListener('keydown', (e) => {
+            if(e.code == "ArrowLeft" && squareDirections[0] != "right" && isStarted) {
+                                              let i = 0;
+                const leftDirection = setInterval(function() {                    
+                    squareDirections[i] = "left"
+
+                    i++;
+                    if(i == length) {
+                        clearInterval(leftDirection)
+                    }
+                },delay)
+            }
+            else if(e.code =="ArrowRight" && squareDirections[0] != "left" && isStarted) {
+                                let j = 0;
+                const rightDirection = setInterval(function() {                    
+                    squareDirections[j] = "right"
+
+                    j++;
+                    if(j == length) {
+                        clearInterval(rightDirection)
+                    }
+                },delay)
+            }
+            else if(e.code == "ArrowUp" && squareDirections[0] != "down" && isStarted) {
+                                let k = 0;
+                const upDirection = setInterval(function() {                    
+                    squareDirections[k] = "up"
+                    k++;
+                    if(k == length) {
+                        clearInterval(upDirection)
+                    }
+                },delay)
+            }
+            else if(e.code == "ArrowDown" && squareDirections[0] != "up" && isStarted) {
+                                                let l = 0;
+                const upDirection = setInterval(function() {                    
+                    squareDirections[l] = "down"
+                    l++;
+                    if(l == length) {
+                        clearInterval(upDirection)
+                    }
+                },delay)
+            }
+        })
+
+        let isStarted = false
+        setTimeout( function() {
+            const gameRunning = setInterval(function() {
+
+            for(let i = 0; i < length; i++) {
+
+                if(squareDirections[i] == "right") {
+                    let left = `calc(${ document.getElementById(`snake-${i}`).style.left} + ${width}px*${speed})`
+                    document.getElementById(`snake-${i}`).style.left = left;
+                }
+                else if(squareDirections[i] == "up") {
+                    let top = `calc(${document.getElementById(`snake-${i}`).style.top} - ${width}px*${speed})`
+                    document.getElementById(`snake-${i}`).style.top = top;
+                }
+                else if(squareDirections[i] == "down") {
+                    let top = `calc(${document.getElementById(`snake-${i}`).style.top} + ${width}px*${speed})`
+                    document.getElementById(`snake-${i}`).style.top = top;
+                }
+                else if(squareDirections[i] == "left") {
+                    let left = `calc(${ document.getElementById(`snake-${i}`).style.left} - ${width}px*${speed})`
+                    document.getElementById(`snake-${i}`).style.left = left;
+                }
+            }
+
+                                    let yellowSquare = document.getElementById(`snake-0`);
+            let apple = document.getElementById(`apple-${apples}`)
+            let ysTop = yellowSquare.style.top.replace(/[^0-9-]/g, '')
+            let ysLeft = yellowSquare.style.left.replace(/[^0-9-]/g, '')
+            ysTop = Number(ysTop)
+            ysLeft = Number(ysLeft)
+
+            let appleTop = apple.style.top.replace(/[^0-9]/g, '')
+            let appleLeft = apple.style.left.replace(/[^0-9]/g, '')
+            appleTop = Number(appleTop)
+            appleLeft = Number(appleLeft)
+
+
+
+            if(ysTop + width > appleTop && ysTop < appleTop + width && ysLeft + width > appleLeft && ysLeft < appleLeft + width) {
+                document.getElementById(`apple-${apples}`).remove();
+                createApple()
+                newCreateSquare()
+            }
+
+
+            if(ysTop + width > 800 || ysLeft + width > 800 || ysTop < 0 || ysLeft < 0) {
+                clearInterval(gameRunning)
+                game.innerHTML+=`<div class="middle-text">
+                        <h2>You Died</h2>
+                        <a href="index.html"><button>Reset</button></a>
+                        </div>`
+            }
+
+            for(let i = 1; i < length; i++) {
+                let greensquare = document.getElementById(`snake-${i}`);
+                let gsTop = greensquare.style.top.replace(/[^0-9-]/g, '')
+                let gsLeft = greensquare.style.left.replace(/[^0-9-]/g, '')
+                gsTop = Number(gsTop)
+                gsLeft = Number(gsLeft)
+                if(ysTop + width > gsTop && ysTop < gsTop + width && ysLeft + width > gsLeft && ysLeft < gsLeft + width)  {
+                    clearInterval(gameRunning)
+                    game.innerHTML+=`<div class="middle-text">
+                        <h2>You Died</h2>
+                        <a href="index.html"><button>Reset</button></a>
+                        </div>`
+                }     
+                }
+            isStarted = true
+        }, delay);
+        }, 3000)
+
+    </script>
+</body>
+</html>
